@@ -11,7 +11,7 @@ public class Tile : MonoBehaviour
     public Color targettedColor = Color.red;
     public Color rangeColor = Color.yellow;
     public int x, y;
-    private TileState curState;
+    public TileState curState;
 
     private void Awake()
     {
@@ -44,7 +44,7 @@ public class Tile : MonoBehaviour
         occupant.transform.position = transform.position;
         occupant.curTile = this;
     }
-    public void removeOccupant(Battler newOccupant)
+    public void removeOccupant()
     {
         occupant = null;
     }

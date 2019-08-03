@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27b8fdacbe5cfeb4ab3a761a48624450, type: 3}
-  m_Name: New Rhombus Targetting
+  m_Name: Rhomb2
   m_EditorClassIdentifier: 
-  xLen: 1
+  xLen: 2

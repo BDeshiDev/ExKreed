@@ -9,6 +9,11 @@ public class PlayerBattler : Battler
     public CommandHolder chosenCommand;
     public override CommandHolder curCommand => chosenCommand;
 
+    public override void init()
+    {
+        stats.init();
+    }
+
     public void chooseTurn(BattleCommand command)
     {
         chosenCommand.init(command, this, null);
@@ -20,6 +25,7 @@ public class PlayerBattler : Battler
     {
         if (chosenCommand != null)
             yield return StartCoroutine(chosenCommand.command.execute(chosenCommand.user,chosenCommand.target));
+        stats.increaseStrain(chosenCommand.command.strainBoost);
         chosenCommand.command = null;
     }
 }

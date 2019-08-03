@@ -19,4 +19,9 @@ public class AttackCommand : BattleCommand
         }
         yield return null;
     }
+
+    public override bool isValidTargetTile(Battler user, Tile targets)
+    {
+        return true;//attacking any tile is allowed... for now
+    }
 }

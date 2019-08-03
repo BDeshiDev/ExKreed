@@ -8,10 +8,12 @@ public class TargettingSystem : MonoBehaviour
     public TileGrid grid;
     public Tile selectedTile;
     public List<Tile> targetPreviewList;
+    public bool canSelectTiles = false;
 
     public IEnumerator getTargets(CommandHolder command)
     {
         Debug.Log("await targets");
+        canSelectTiles = true;
         while (selectedTile == null)
         {
             yield return null;
@@ -19,7 +21,9 @@ public class TargettingSystem : MonoBehaviour
 
         command.target = selectedTile;
         targetPreviewList.Clear();
+        targetPreviewList.Add(selectedTile);
         command.command.damagePattern.selectTargets(grid.tiles,targetPreviewList,selectedTile.x, selectedTile.y);
+
         foreach (var tile in targetPreviewList)
         {
             tile.setTileState(TileState.target);
@@ -27,11 +31,13 @@ public class TargettingSystem : MonoBehaviour
         
         Debug.Log("received targets");
         selectedTile = null;
+        canSelectTiles = false;
     }
 
     public void handleTileSelection(Tile tile)
     {
-        selectedTile = tile;
+        if(canSelectTiles)
+            selectedTile = tile;
     }
 
     private void OnEnable()

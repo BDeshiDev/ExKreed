@@ -8,6 +8,8 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
     public BattlePanelUI panelPrefab;
     public BattlePanelUI panelUI;
     public Transform panelParent;
+    public Transform statsPanelHolder;
+    public StatsPanel statsPanelPrefab;
 
     
     public int curBattlerIndex = 0;
@@ -41,6 +43,10 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
     {
         Debug.Log("panels created");
         panelUI = Instantiate(panelPrefab, panelParent);
+        foreach (var battler in battlers)
+        {
+            Instantiate(statsPanelPrefab,statsPanelHolder).init(battler);
+        }
     }
 
     public void confirmTurn()
@@ -65,7 +71,8 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles,rangePreviewList,curBattler.curTile.x , curBattler.curTile.y);
         foreach (var tile in rangePreviewList)
         {
-            tile.setTileState(TileState.range);
+            if(curBattler.chosenCommand.command.isValidTargetTile(curBattler,tile))
+                tile.setTileState(TileState.range);
         }
         yield return StartCoroutine(targeter.getTargets(curBattler.chosenCommand));
 
@@ -85,7 +92,14 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         {
             tile.setTileState(TileState.normal);
         }
+    }
 
+    public override void init()
+    {
+        foreach (var playerBattler in battlers)
+        {
+            playerBattler.init();
+        }
     }
 
     private void Update()

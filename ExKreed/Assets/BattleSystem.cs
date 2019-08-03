@@ -10,6 +10,10 @@ public class BattleSystem : MonoBehaviour
 
     private void Start()
     {
+        foreach (var battler in battlers)
+        {
+            battler.init();
+        }
         StartCoroutine(battleLoop());
     }
 

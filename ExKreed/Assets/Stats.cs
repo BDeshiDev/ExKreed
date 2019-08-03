@@ -13,13 +13,26 @@ public class Stats
     public bool isOverStrained = false;
     public int curHp { get; private set; }
 
-    private void Awake()
+    public event Action<Stats> onHealthChangeEvent;
+    public event Action<int> onStrainChangeEvent;
+
+    public void init()
     {
         curHp = maxHp;
+        onHealthChangeEvent?.Invoke(this);
+    }
+
+    public void increaseStrain(int amount)
+    {
+        strain += Mathf.Min(amount,maxStrain);
+        onStrainChangeEvent?.Invoke(strain);
+        if (strain >= maxStrain)
+            isOverStrained = true;
     }
 
     public void takeDamage(int amount)
     {
         curHp = Mathf.Max(0, curHp - (amount > defence ? (amount - defence) : 0));
+        onHealthChangeEvent?.Invoke(this);
     }
 }

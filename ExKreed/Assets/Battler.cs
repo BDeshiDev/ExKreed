@@ -16,11 +16,12 @@ public abstract class Battler : MonoBehaviour,IComparable<Battler>
 
     public bool canTakeTurn => stats.curHp > 0 && !stats.isOverStrained;
 
-
+    public abstract void init();
     public void takeDamage(int damage)
     {
         stats.takeDamage(damage);
     }
+
 
     public int CompareTo(Battler other)
     {

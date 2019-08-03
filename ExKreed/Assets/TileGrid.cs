@@ -64,7 +64,7 @@ public class TileGrid : MonoBehaviour
             if (Physics.Raycast(ray, out hit,1000))
             {
                 Tile t = hit.transform.GetComponent<Tile>();
-                if (t != null)
+                if (t != null && t.curState == TileState.range)
                 {
                     t.handleClick();
                     onTileSelected?.Invoke(t);

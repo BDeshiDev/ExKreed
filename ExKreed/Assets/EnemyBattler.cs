@@ -17,4 +17,9 @@ public class EnemyBattler : Battler
 
         delay = curCommand.command.calcDelay(this);
     }
+
+    public override void init()
+    {
+        stats.init();
+    }
 }
