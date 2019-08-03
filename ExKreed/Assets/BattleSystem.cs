@@ -8,7 +8,7 @@ public class BattleSystem : MonoBehaviour
     public List<Battler> battlers;
     public bool isOver = false;
 
-    private void Awake()
+    private void Start()
     {
         StartCoroutine(battleLoop());
     }

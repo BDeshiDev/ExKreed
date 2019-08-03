@@ -6,7 +6,7 @@ using UnityEngine;
 public class AttackCommand : BattleCommand
 {
 
-    public override IEnumerator execute(Battler user, List<Battler> targets)
+    public override IEnumerator execute(Battler user, Tile target)
     {
         Debug.Log(title + "was executed");
         yield return null;

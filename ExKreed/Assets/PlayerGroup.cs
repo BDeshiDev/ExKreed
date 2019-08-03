@@ -16,8 +16,8 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
 
     public PlayerBattler curBattler;
 
-    public override CommandHolder curCommand => chosenCommand;
-    public CommandHolder chosenCommand;
+    public override CommandHolder curCommand => curBattler == null? null: curBattler.chosenCommand;
+    public List<Tile> rangePreviewList;
 
     public void shiftBattler(int offset = 1)
     {
@@ -39,6 +39,7 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
 
     private void Awake()
     {
+        Debug.Log("panels created");
         panelUI = Instantiate(panelPrefab, panelParent);
     }
 
@@ -47,19 +48,36 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         if(curBattler != null && curBattler.chosenCommand != null)
         {
             hasConfirmedTurn = true;
-            chosenCommand = curBattler.chosenCommand;
         }
     }
 
 
     public override IEnumerator executeTurn()
     {
+        panelUI.gameObject.SetActive(true);
         hasConfirmedTurn = false;
         shiftBattler(0);
+
+        while (curCommand.command == null)
+            yield return null;
+        panelUI.gameObject.SetActive(false);
+        rangePreviewList.Clear();
+        //curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid,);
+        foreach (var tile in rangePreviewList)
+        {
+            tile.toggleTarget(false);
+        }
+        yield return StartCoroutine(targeter.getTargets(curBattler.chosenCommand));
+
         while (!hasConfirmedTurn)
             yield return null;
         delay = curCommand.command.calcDelay(curBattler);
+        foreach (var tile in targeter.targetPreviewList)
+        {
+            tile.toggleTarget(false);
+        }
         yield return StartCoroutine(curBattler.executeTurn());
+
     }
 
     private void Update()

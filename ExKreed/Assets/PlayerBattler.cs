@@ -20,5 +20,6 @@ public class PlayerBattler : Battler
     {
         if (chosenCommand != null)
             yield return StartCoroutine(chosenCommand.command.execute(chosenCommand.user,chosenCommand.target));
+        chosenCommand.command = null;
     }
 }
