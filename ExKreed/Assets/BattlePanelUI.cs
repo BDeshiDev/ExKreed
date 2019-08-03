@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattlePanelUI : MonoBehaviour
 {
     public ButtonHolder buttonPrefab;
-
+    
     public void createButtonList(PlayerBattler pb,List<BattleCommand> commandsList)
     {
         foreach (var battleCommand in commandsList)

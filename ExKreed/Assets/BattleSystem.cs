@@ -6,6 +6,7 @@ using UnityEngine;
 public class BattleSystem : MonoBehaviour
 {
     public List<Battler> battlers;
+    public bool isOver = false;
 
     private void Awake()
     {
@@ -14,17 +15,12 @@ public class BattleSystem : MonoBehaviour
 
     public IEnumerator battleLoop()
     {
-        Debug.Log("deciding");
-        foreach (var battler in battlers)
+        while (!isOver)
         {
-            yield return StartCoroutine(battler.decideTurn());
-        }
-        battlers.Sort();
-        Debug.Log("executing");
-        foreach (var battler in battlers)
-        {
-            Debug.Log(battler.title + "'s turn");
-            yield return  StartCoroutine( battler.executeTurn());
+            foreach (var battler in battlers)
+            {
+                yield return StartCoroutine(battler.executeTurn());
+            }
         }
     }
 }

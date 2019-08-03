@@ -5,30 +5,20 @@ using UnityEngine;
 
 public class PlayerBattler : Battler
 {
-    public BattlePanelUI panelPrefab;
-    public BattlePanelUI panelUI;
     public List<BattleCommand> commands;
-    public Transform panelParent;
-
-    private void Awake()
-    {
-        panelUI = Instantiate(panelPrefab, panelParent);
-        panelUI.createButtonList(this,commands);
-    }
+    public CommandHolder chosenCommand;
+    public override CommandHolder curCommand => chosenCommand;
 
     public void chooseTurn(BattleCommand command)
     {
-        chosenCommand = command;
-        Debug.Log(chosenCommand.title + "selected");
+        chosenCommand.init(command, this, null);
+        Debug.Log(chosenCommand.command.title + "selected by " + chosenCommand.user.title );
     }
 
-    public override IEnumerator decideTurn()
-    {   
-        
-        while (chosenCommand == null)
-        {
-            yield return null;
-        }
-        Debug.Log(chosenCommand.title + "chosen");
+
+    public override IEnumerator executeTurn()
+    {
+        if (chosenCommand != null)
+            yield return StartCoroutine(chosenCommand.command.execute(chosenCommand.user,chosenCommand.target));
     }
 }

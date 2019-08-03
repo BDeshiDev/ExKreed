@@ -6,30 +6,22 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Battler : MonoBehaviour,IComparable<Battler>
 {
-    public int speed = 5;
     public int delay = 1;
     public string title = "NONE";
-    public BattleCommand chosenCommand;
-    public BattleCommand testCommand;
-    private Stats stats;
-    public abstract IEnumerator decideTurn();
+    public abstract CommandHolder curCommand { get; }
+    public Stats stats;
+    public abstract IEnumerator executeTurn();
 
-    public IEnumerator executeTurn()
-    {
-        if (chosenCommand != null)
-            yield return StartCoroutine(testCommand.execute());
-        chosenCommand = null;
-    }
+    public bool canTakeTurn => stats.curHp > 0 && !stats.isOverStrained;
+
 
     public void takeDamage(int damage)
     {
-        stats.curHp = Mathf.Max(0,stats.curHp - (damage > stats.defence? damage - stats.defence : 0 ))
+        stats.takeDamage(damage);
     }
 
     public int CompareTo(Battler other)
     {
-        if ((delay - speed) != (other.delay - other.speed))
-            return (delay - speed) - (other.delay - other.speed);
-        return other.speed - speed;
+        return this.delay - other.delay;
     }
 }
