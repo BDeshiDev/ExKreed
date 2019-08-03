@@ -62,10 +62,10 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
             yield return null;
         panelUI.gameObject.SetActive(false);
         rangePreviewList.Clear();
-        //curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid,);
+        curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles,rangePreviewList,curBattler.curTile.x , curBattler.curTile.y);
         foreach (var tile in rangePreviewList)
         {
-            tile.toggleTarget(false);
+            tile.setTileState(TileState.range);
         }
         yield return StartCoroutine(targeter.getTargets(curBattler.chosenCommand));
 
@@ -74,9 +74,17 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         delay = curCommand.command.calcDelay(curBattler);
         foreach (var tile in targeter.targetPreviewList)
         {
-            tile.toggleTarget(false);
+            tile.setTileState(TileState.target);
         }
         yield return StartCoroutine(curBattler.executeTurn());
+        foreach (var tile in rangePreviewList)
+        {
+            tile.setTileState(TileState.normal);
+        }
+        foreach (var tile in targeter.targetPreviewList)
+        {
+            tile.setTileState(TileState.normal);
+        }
 
     }
 

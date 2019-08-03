@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Stats
 {
-    public int attack =10;
-    public int defence =10;
+    public int attack = 15;
+    public int defence = 10;
     public int maxHp=30;
     public int strain = 0;
     public static int maxStrain = 100;
@@ -20,7 +20,6 @@ public class Stats
 
     public void takeDamage(int amount)
     {
-        curHp = Mathf.Max(0, curHp -
-                             (amount > defence ? (amount - defence) : 0));
+        curHp = Mathf.Max(0, curHp - (amount > defence ? (amount - defence) : 0));
     }
 }

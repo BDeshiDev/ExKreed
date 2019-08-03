@@ -10,7 +10,9 @@ public class EnemyBattler : Battler
 
     public override IEnumerator executeTurn()
     {
-        chosenCommand.init(testCommand,this,null);
+        List<Tile> possibleTargetTiles = new List<Tile>();
+        testCommand.rangePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,curTile.x,curTile.y);
+        chosenCommand.init(testCommand,this,possibleTargetTiles[Random.Range(0,possibleTargetTiles.Count)]);
         yield return StartCoroutine(testCommand.execute(chosenCommand.user,chosenCommand.target));
 
         delay = curCommand.command.calcDelay(this);

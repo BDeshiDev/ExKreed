@@ -9,23 +9,40 @@ public class Tile : MonoBehaviour
     private SpriteRenderer spriter;
     public Color normalColor = Color.cyan;
     public Color targettedColor = Color.red;
+    public Color rangeColor = Color.yellow;
     public int x, y;
+    private TileState curState;
 
     private void Awake()
     {
         spriter = GetComponent<SpriteRenderer>();
-        toggleTarget(false);
+        setTileState(TileState.normal);
     }
 
-    public void toggleTarget(bool canBeTargetted)
+   
+
+    public void setTileState(TileState newState)
     {
-        spriter.color = canBeTargetted ? targettedColor : normalColor;
+        curState = newState;
+        switch (curState)
+        {
+            case TileState.normal:
+                spriter.color = normalColor;
+                break;
+            case TileState.target:
+                spriter.color = targettedColor;
+                break;
+            case TileState.range:
+                spriter.color = rangeColor;
+                break;
+        }
     }
 
     public void placeOccupant(Battler newOccupant)
     {
         occupant = newOccupant;
         occupant.transform.position = transform.position;
+        occupant.curTile = this;
     }
     public void removeOccupant(Battler newOccupant)
     {
@@ -36,4 +53,9 @@ public class Tile : MonoBehaviour
     public void handleClick() {
         Debug.Log(gameObject.name + "clicked");
     }
+}
+
+public enum TileState
+{
+    normal,target,range,
 }

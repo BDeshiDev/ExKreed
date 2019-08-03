@@ -12,6 +12,7 @@ public abstract class Battler : MonoBehaviour,IComparable<Battler>
     public Stats stats;
     public abstract IEnumerator executeTurn();
     public TargettingSystem targeter;
+    public Tile curTile;
 
     public bool canTakeTurn => stats.curHp > 0 && !stats.isOverStrained;
 
