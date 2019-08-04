@@ -68,9 +68,11 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
     public override IEnumerator executeTurn()
     {
         hasConfirmedTurn = false;
+        canChangebattler = true;
         while (!hasConfirmedTurn)
         {
             hasCancelled = false;
+            canChangebattler = true;
             panelUI.gameObject.SetActive(true);
             cancelButton.gameObject.SetActive(false);
             confirmButton.gameObject.SetActive(false);
@@ -79,10 +81,11 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
 
             while (curCommand.command == null)
                 yield return null;
+            canChangebattler = false;
 
             panelUI.gameObject.SetActive(false);
             rangePreviewList.Clear();
-            curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles, rangePreviewList,
+            curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles, rangePreviewList,curBattler,
                 curBattler.curTile.x, curBattler.curTile.y);
 
             foreach (var tile in rangePreviewList)
@@ -113,7 +116,6 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
                     curCommand.command = null;
                     break;
                 }
-
                 yield return null;
             }
         }

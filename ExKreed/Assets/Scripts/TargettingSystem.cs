@@ -22,7 +22,7 @@ public class TargettingSystem : MonoBehaviour
         command.target = selectedTile;
         targetPreviewList.Clear();
         targetPreviewList.Add(selectedTile);
-        command.command.damagePattern.selectTargets(grid.tiles,targetPreviewList,selectedTile.x, selectedTile.y);
+        command.command.damagePattern.selectTargets(grid.tiles,targetPreviewList,command.user,selectedTile.x, selectedTile.y);
 
         foreach (var tile in targetPreviewList)
         {

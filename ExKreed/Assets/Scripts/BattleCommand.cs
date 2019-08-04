@@ -10,6 +10,7 @@ public abstract class BattleCommand : ScriptableObject
     public int strainBoost = 10;
     public GameObject fxPrefab;
     public float fxWaitDuration = .8f;
+    public bool shouldTargetSelf = false;
 
     public TargettingPattern rangePattern;
     public TargettingPattern damagePattern;
@@ -28,7 +29,7 @@ public abstract class BattleCommand : ScriptableObject
         {
             foreach (var tile in targets)
             {
-                Instantiate(fxPrefab, tile.transform.position - Vector3.forward, Quaternion.identity);
+                Instantiate(fxPrefab, tile.transform.position - new Vector3(0,0,1.6f) , Quaternion.identity);
             }
 
             yield return new WaitForSeconds(fxWaitDuration);

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d9bcce5fd9489428eaae8cf5693d31, type: 3}
+  m_Name: LungeStab
+  m_EditorClassIdentifier: 
+  title: Lunge Stab
+  delay: 1
+  delayPerStrain: 0.5
+  strainBoost: 10
+  fxPrefab: {fileID: 6478883536270013437, guid: 9a3522b26acee4140909a4e9e0610932,
+    type: 3}
+  fxWaitDuration: 0.8
+  rangePattern: {fileID: 11400000, guid: b533b0a213cdde04d8f64b82862830f3, type: 2}
+  damagePattern: {fileID: 11400000, guid: 701f0cc6257c4614e90a60d50676d6b6, type: 2}
+  damageBonus: 25

@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(menuName = "Rhombus Targetting")]
 public class RhombusTargetting : TargettingPattern
 {
     public int xLen = 1;
-    public override void selectTargets(Tile[,] tiles, List<Tile> targets, int startX, int startY)
+    public override void selectTargets(Tile[,] tiles, List<Tile> targets, Battler user, int startX, int startY)
     {
         for (int y = 0; y <= xLen; y++)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "single targetting")]
 public class SingleTarget : TargettingPattern
 {
-    public override void selectTargets(Tile[,] tiles, List<Tile> targets, int startX, int startY)
+    public override void selectTargets(Tile[,] tiles, List<Tile> targets, Battler user, int startX, int startY)
     {
         if(startX < tiles.GetLength(0) && startX >= 0 &&
            startY < tiles.GetLength(1) && startY >= 0)

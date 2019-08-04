@@ -9,14 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eaa515eeb4363e4d9dd9d7046511cca, type: 3}
-  m_Name: move command
+  m_Script: {fileID: 11500000, guid: 24d9bcce5fd9489428eaae8cf5693d31, type: 3}
+  m_Name: Stab
   m_EditorClassIdentifier: 
-  title: Move
+  title: Piercing Strike
   delay: 1
   delayPerStrain: 0.5
   strainBoost: 10
-  fxPrefab: {fileID: 0}
-  fxWaitDuration: 0
-  rangePattern: {fileID: 11400000, guid: 80c6d08f4a38f66459883e7ce155d071, type: 2}
+  fxPrefab: {fileID: 6478883536270013437, guid: 9a3522b26acee4140909a4e9e0610932,
+    type: 3}
+  fxWaitDuration: 0.8
+  rangePattern: {fileID: 11400000, guid: cde6e2ac5660b2b448d66a0a49228da2, type: 2}
   damagePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}
+  damageBonus: 10

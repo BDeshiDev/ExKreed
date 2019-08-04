@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class TargettingPattern : ScriptableObject
 {
-    public abstract void selectTargets(Tile[,] tiles,List<Tile> targets, int startX, int startY);
+    public abstract void selectTargets(Tile[,] tiles,List<Tile> targets,Battler user, int startX, int startY);
 }

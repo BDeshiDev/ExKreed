@@ -5,7 +5,7 @@ using UnityEngine;
 public class CrossTargetting : TargettingPattern
 {
     public int crossLen = 1;
-    public override void selectTargets(Tile[,] tiles, List<Tile> targets, int startX, int startY)
+    public override void selectTargets(Tile[,] tiles,List<Tile> targets, Battler user, int startX, int startY)
     {
         for (int i = 1; i <= crossLen; i++)
         {

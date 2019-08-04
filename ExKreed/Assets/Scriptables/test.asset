@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   title: '"Normal attack"'
-  delay: 1
+  delay: 15
   delayPerStrain: 0.5
   strainBoost: 10
   fxPrefab: {fileID: 6478883536270013437, guid: 9a3522b26acee4140909a4e9e0610932,
     type: 3}
   fxWaitDuration: 0.8
+  shouldTargetSelf: 0
   rangePattern: {fileID: 11400000, guid: 80c6d08f4a38f66459883e7ce155d071, type: 2}
   damagePattern: {fileID: 11400000, guid: a31bc1000d8323444aeba096c026f12d, type: 2}
   damageBonus: 10

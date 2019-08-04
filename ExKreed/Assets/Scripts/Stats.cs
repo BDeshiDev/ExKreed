@@ -32,12 +32,18 @@ public class Stats
 
     public int calcDamage(int amount)
     {
-        return Mathf.Max(0, curHp - (amount > defence ? (amount - defence) : 0));
+        return (amount > defence ? (amount - defence) : 0);
     }
 
     public void takeDamage(int amount)
     {
-        curHp = calcDamage(amount);
+        curHp = Mathf.Clamp(curHp - calcDamage(amount),0,maxHp);
+        onHealthChangeEvent?.Invoke(this);
+    }
+
+    public void takeFlatDamage(int amount)
+    {
+        curHp = Mathf.Clamp(curHp - amount, 0, maxHp);
         onHealthChangeEvent?.Invoke(this);
     }
 }

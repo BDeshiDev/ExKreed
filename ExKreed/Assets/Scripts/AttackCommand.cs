@@ -11,11 +11,14 @@ public class AttackCommand : BattleCommand
         Debug.Log(title + "was executed by" + user.title);
         List<Tile> targets = new List<Tile>();
         targets.Add(target);
-        damagePattern.selectTargets(user.targeter.grid.tiles,targets,target.x, target.y);
+        damagePattern.selectTargets(user.targeter.grid.tiles,targets,user,target.x, target.y);
         foreach (var tile in targets)
         {
-            if(tile.occupant != null)
-                tile.occupant.takeDamage(damageBonus + user.stats.attack);
+            if (tile.occupant != null)
+            {
+                if(tile.occupant != user || shouldTargetSelf)
+                    tile.occupant.takeDamage(damageBonus + user.stats.attack);
+            }
         }
         yield return null;
     }

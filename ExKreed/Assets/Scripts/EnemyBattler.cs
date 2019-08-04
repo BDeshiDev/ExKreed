@@ -24,7 +24,7 @@ public class EnemyBattler : Battler
         }
 
         List<Tile> possibleTargetTiles = new List<Tile>();
-        curCommand.rangePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,curTile.x,curTile.y);
+        curCommand.rangePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,this,curTile.x,curTile.y);
         
         for(int i = possibleTargetTiles.Count -1; i >=0 ;i--)
         {
@@ -42,7 +42,7 @@ public class EnemyBattler : Battler
 
         possibleTargetTiles.Clear();
         possibleTargetTiles.Add(selectedTile);
-        chosenCommand.command.damagePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,selectedTile.x,selectedTile.y);
+        chosenCommand.command.damagePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,this,selectedTile.x,selectedTile.y);
         foreach (var possibleTargetTile in possibleTargetTiles)
         {
             possibleTargetTile.setTileState(TileState.target);
@@ -71,11 +71,11 @@ public class EnemyBattler : Battler
         List<Tile> damagableTiles = new List<Tile>();
         foreach (var battleCommand in commands)
         {
-            battleCommand.rangePattern.selectTargets(targeter.grid.tiles,tilesInRange,curTile.x, curTile.y);
+            battleCommand.rangePattern.selectTargets(targeter.grid.tiles,tilesInRange,this,curTile.x, curTile.y);
             foreach (var tile in tilesInRange)
             {
                 damagableTiles.Clear();
-                battleCommand.damagePattern.selectTargets(targeter.grid.tiles,damagableTiles,tile.x,tile.y);
+                battleCommand.damagePattern.selectTargets(targeter.grid.tiles,damagableTiles,this,tile.x,tile.y);
                 int damageScore = 0;
                 foreach (var damagableTile in damagableTiles)
                 {
@@ -106,7 +106,7 @@ public class EnemyBattler : Battler
     public Tile pickRandomMoveTile()
     {
         List<Tile> moveableTiles = new List<Tile>();
-        moveCommand.rangePattern.selectTargets(targeter.grid.tiles,moveableTiles,curTile.x,curTile.y);
+        moveCommand.rangePattern.selectTargets(targeter.grid.tiles,moveableTiles,this,curTile.x,curTile.y);
         for (int i = moveableTiles.Count - 1; i >= 0; i--)
         {
             if (moveCommand.isValidTargetTile(this, moveableTiles[i]))
