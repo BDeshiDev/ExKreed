@@ -8,7 +8,8 @@ public abstract class BattleCommand : ScriptableObject
     public int delay = 1;
     public float delayPerStrain = .5f;
     public int strainBoost = 10;
-
+    public GameObject fxPrefab;
+    public float fxWaitDuration = .8f;
 
     public TargettingPattern rangePattern;
     public TargettingPattern damagePattern;
@@ -18,6 +19,19 @@ public abstract class BattleCommand : ScriptableObject
 
     public int calcDelay(Battler user)
     {
-        return  Mathf.FloorToInt(delay + (user.stats.strain) * delayPerStrain);
+        return Mathf.FloorToInt(delay + (user.stats.strain) * delayPerStrain);
+    }
+
+    public IEnumerator playFX(List<Tile> targets)
+    {
+        if (fxPrefab != null)
+        {
+            foreach (var tile in targets)
+            {
+                Instantiate(fxPrefab, tile.transform.position - Vector3.forward, Quaternion.identity);
+            }
+
+            yield return new WaitForSeconds(fxWaitDuration);
+        }
     }
 }

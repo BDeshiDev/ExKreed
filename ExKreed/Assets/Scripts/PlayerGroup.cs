@@ -69,6 +69,7 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         panelUI.gameObject.SetActive(false);
         rangePreviewList.Clear();
         curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles,rangePreviewList,curBattler.curTile.x , curBattler.curTile.y);
+
         foreach (var tile in rangePreviewList)
         {
             if(curBattler.chosenCommand.command.isValidTargetTile(curBattler,tile))
@@ -84,7 +85,9 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         {
             tile.setTileState(TileState.target);
         }
+        yield return StartCoroutine(curBattler.chosenCommand.command.playFX(targeter.targetPreviewList));
         yield return StartCoroutine(curBattler.executeTurn());
+
         foreach (var tile in rangePreviewList)
         {
             tile.setTileState(TileState.normal);

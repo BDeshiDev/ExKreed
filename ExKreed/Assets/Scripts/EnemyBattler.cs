@@ -6,6 +6,7 @@ public class EnemyBattler : Battler
 {
     public List<AttackCommand> commands;
     public MoveCommand moveCommand;
+    public WaitCommand waitCommand;
     public CommandHolder chosenCommand;
     public Tile selectedTile;
     public override CommandHolder curCommand => chosenCommand;
@@ -16,18 +17,22 @@ public class EnemyBattler : Battler
         if (curCommand == null)//can't attack
         {
             selectedTile = pickRandomMoveTile();
-            curCommand = moveCommand;
+            if (selectedTile == null)
+                curCommand = waitCommand;
+            else
+                curCommand = moveCommand;
         }
 
         List<Tile> possibleTargetTiles = new List<Tile>();
         curCommand.rangePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,curTile.x,curTile.y);
         
-        foreach (var possibleTargetTile in possibleTargetTiles)
+        for(int i = possibleTargetTiles.Count -1; i >=0 ;i--)
         {
-            possibleTargetTile.setTileState(TileState.range);
-            Debug.Log(possibleTargetTile.gameObject);
+            if (curCommand.isValidTargetTile(this, possibleTargetTiles[i]))
+                possibleTargetTiles[i].setTileState(TileState.range);
         }
-        Debug.Log(selectedTile.gameObject);
+
+        Debug.Log("selected " + selectedTile.gameObject);
         yield return new WaitForSeconds(.5f);
         foreach (var possibleTargetTile in possibleTargetTiles)
         {
@@ -43,7 +48,8 @@ public class EnemyBattler : Battler
             possibleTargetTile.setTileState(TileState.target);
             Debug.Log("target" + possibleTargetTile.gameObject);
         }
-        yield return new WaitForSeconds(.5f);
+
+        yield return StartCoroutine(chosenCommand.command.playFX(possibleTargetTiles));
 
         yield return StartCoroutine(curCommand.execute(chosenCommand.user,chosenCommand.target));
         foreach (var possibleTargetTile in possibleTargetTiles)
@@ -101,7 +107,16 @@ public class EnemyBattler : Battler
     {
         List<Tile> moveableTiles = new List<Tile>();
         moveCommand.rangePattern.selectTargets(targeter.grid.tiles,moveableTiles,curTile.x,curTile.y);
-        return moveableTiles.Count > 0 ? moveableTiles[Random.Range(0, moveableTiles.Count)] : curTile;
+        for (int i = moveableTiles.Count - 1; i >= 0; i--)
+        {
+            if (moveCommand.isValidTargetTile(this, moveableTiles[i]))
+                moveableTiles[i].setTileState(TileState.range);
+            else
+            {
+                moveableTiles.Remove(moveableTiles[i]);
+            }
+        }
+        return moveableTiles.Count > 0 ? moveableTiles[Random.Range(0, moveableTiles.Count)] : null;
     }
 
     public override void init()

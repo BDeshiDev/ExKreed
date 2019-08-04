@@ -24,7 +24,10 @@ public class PlayerBattler : Battler
     public override IEnumerator executeTurn()
     {
         if (chosenCommand != null)
-            yield return StartCoroutine(chosenCommand.command.execute(chosenCommand.user,chosenCommand.target));
+        {
+            yield return StartCoroutine(chosenCommand.command.execute(chosenCommand.user, chosenCommand.target));
+        }
+
         stats.increaseStrain(chosenCommand.command.strainBoost);
         chosenCommand.command = null;
     }
