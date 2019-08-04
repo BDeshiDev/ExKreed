@@ -78,7 +78,8 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
 
         while (!hasConfirmedTurn)
             yield return null;
-        delay = curCommand.command.calcDelay(curBattler);
+
+        var command = curCommand.command;
         foreach (var tile in targeter.targetPreviewList)
         {
             tile.setTileState(TileState.target);
@@ -92,7 +93,11 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         {
             tile.setTileState(TileState.normal);
         }
+
+        delay = command.calcDelay(curBattler);
     }
+
+    public override string BattleTag => "Player";
 
     public override void init()
     {
@@ -100,6 +105,17 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         {
             playerBattler.init();
         }
+    }
+
+    public override bool isDead()
+    {
+        foreach (var playerBattler in battlers)
+        {
+            if (!playerBattler.isDead())
+                return false;
+        }
+
+        return true;
     }
 
     private void Update()

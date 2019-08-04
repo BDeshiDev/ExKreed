@@ -24,15 +24,20 @@ public class Stats
 
     public void increaseStrain(int amount)
     {
-        strain += Mathf.Min(amount,maxStrain);
+        strain = Mathf.Clamp(strain + amount,0,maxStrain);
         onStrainChangeEvent?.Invoke(strain);
         if (strain >= maxStrain)
             isOverStrained = true;
     }
 
+    public int calcDamage(int amount)
+    {
+        return Mathf.Max(0, curHp - (amount > defence ? (amount - defence) : 0));
+    }
+
     public void takeDamage(int amount)
     {
-        curHp = Mathf.Max(0, curHp - (amount > defence ? (amount - defence) : 0));
+        curHp = calcDamage(amount);
         onHealthChangeEvent?.Invoke(this);
     }
 }

@@ -18,6 +18,6 @@ public abstract class BattleCommand : ScriptableObject
 
     public int calcDelay(Battler user)
     {
-        return  Mathf.FloorToInt(delay + (user.stats.strain / Stats.maxStrain + 1) * delayPerStrain);
+        return  Mathf.FloorToInt(delay + (user.stats.strain) * delayPerStrain);
     }
 }

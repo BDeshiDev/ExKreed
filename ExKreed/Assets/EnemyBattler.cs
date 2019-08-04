@@ -4,22 +4,114 @@ using UnityEngine;
 
 public class EnemyBattler : Battler
 {
-    public BattleCommand testCommand;
+    public List<AttackCommand> commands;
+    public MoveCommand moveCommand;
     public CommandHolder chosenCommand;
+    public Tile selectedTile;
     public override CommandHolder curCommand => chosenCommand;
 
     public override IEnumerator executeTurn()
     {
-        List<Tile> possibleTargetTiles = new List<Tile>();
-        testCommand.rangePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,curTile.x,curTile.y);
-        chosenCommand.init(testCommand,this,possibleTargetTiles[Random.Range(0,possibleTargetTiles.Count)]);
-        yield return StartCoroutine(testCommand.execute(chosenCommand.user,chosenCommand.target));
+        BattleCommand curCommand = pickAttack();
+        if (curCommand == null)//can't attack
+        {
+            selectedTile = pickRandomMoveTile();
+            curCommand = moveCommand;
+        }
 
-        delay = curCommand.command.calcDelay(this);
+        List<Tile> possibleTargetTiles = new List<Tile>();
+        curCommand.rangePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,curTile.x,curTile.y);
+        
+        foreach (var possibleTargetTile in possibleTargetTiles)
+        {
+            possibleTargetTile.setTileState(TileState.range);
+            Debug.Log(possibleTargetTile.gameObject);
+        }
+        Debug.Log(selectedTile.gameObject);
+        yield return new WaitForSeconds(.5f);
+        foreach (var possibleTargetTile in possibleTargetTiles)
+        {
+            possibleTargetTile.setTileState(TileState.normal);
+        }
+        chosenCommand.init(curCommand, this,selectedTile);
+
+        possibleTargetTiles.Clear();
+        possibleTargetTiles.Add(selectedTile);
+        chosenCommand.command.damagePattern.selectTargets(targeter.grid.tiles, possibleTargetTiles,selectedTile.x,selectedTile.y);
+        foreach (var possibleTargetTile in possibleTargetTiles)
+        {
+            possibleTargetTile.setTileState(TileState.target);
+            Debug.Log("target" + possibleTargetTile.gameObject);
+        }
+        yield return new WaitForSeconds(.5f);
+
+        yield return StartCoroutine(curCommand.execute(chosenCommand.user,chosenCommand.target));
+        foreach (var possibleTargetTile in possibleTargetTiles)
+        {
+            possibleTargetTile.setTileState(TileState.normal);
+        }
+        yield return new WaitForSeconds(.1f);
+        stats.increaseStrain(chosenCommand.command.strainBoost);
+        delay = chosenCommand.command.calcDelay(this);
+    }
+
+    public override string BattleTag => "Enemy";
+
+    public BattleCommand pickAttack()
+    {
+        int maxDamageScore = 0;
+        BattleCommand result = null;
+        List<Tile> tilesInRange = new List<Tile>();
+        List<Tile> damagableTiles = new List<Tile>();
+        foreach (var battleCommand in commands)
+        {
+            battleCommand.rangePattern.selectTargets(targeter.grid.tiles,tilesInRange,curTile.x, curTile.y);
+            foreach (var tile in tilesInRange)
+            {
+                damagableTiles.Clear();
+                battleCommand.damagePattern.selectTargets(targeter.grid.tiles,damagableTiles,tile.x,tile.y);
+                int damageScore = 0;
+                foreach (var damagableTile in damagableTiles)
+                {
+                    if (damagableTile.occupant != null)
+                    {
+                        if (damagableTile.occupant.BattleTag != this.BattleTag)
+                        {
+                            damageScore += damagableTile.occupant.calcDamage(this.stats.attack + battleCommand.damageBonus);
+                            if (damageScore > maxDamageScore)
+                            {
+                                maxDamageScore = damageScore;
+                                result = battleCommand;
+                                selectedTile = damagableTile;
+                            }
+                        }
+                        else
+                        {
+                            damageScore -= damagableTile.occupant.calcDamage(this.stats.attack + battleCommand.damageBonus);
+                        }
+                    }
+
+                }
+            }
+        }
+        return result;
+    }
+
+    public Tile pickRandomMoveTile()
+    {
+        List<Tile> moveableTiles = new List<Tile>();
+        moveCommand.rangePattern.selectTargets(targeter.grid.tiles,moveableTiles,curTile.x,curTile.y);
+        return moveableTiles.Count > 0 ? moveableTiles[Random.Range(0, moveableTiles.Count)] : curTile;
     }
 
     public override void init()
     {
         stats.init();
     }
+
+    public override bool isDead()
+    {
+        return stats.curHp <= 0;
+    }
 }
+

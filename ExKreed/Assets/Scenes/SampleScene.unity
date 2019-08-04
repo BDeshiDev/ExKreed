@@ -1128,8 +1128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb90fa45746d5cb49b922e17eda12d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battlers:
-  - {fileID: 1395762948}
+  battlers: []
+  playerParty: {fileID: 1395762948}
+  enemies:
   - {fileID: 888935421}
   isOver: 0
 --- !u!114 &1228431064
