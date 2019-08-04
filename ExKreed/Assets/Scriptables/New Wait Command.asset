@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0873d9254f3a48641b270630367bb577, type: 3}
   m_Name: New Wait Command
   m_EditorClassIdentifier: 
-  title: nameless technique
+  title: Wait
   delay: 1
   delayPerStrain: 0.5
   strainBoost: 10
   fxPrefab: {fileID: 0}
-  fxWaitDuration: 0.8
-  rangePattern: {fileID: 0}
-  damagePattern: {fileID: 0}
+  fxWaitDuration: 0
+  rangePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}
+  damagePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}

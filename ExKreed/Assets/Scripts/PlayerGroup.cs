@@ -11,10 +11,12 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
     public Transform statsPanelHolder;
     public StatsPanel statsPanelPrefab;
 
-    
+    public bool hasCancelled = false;
     public int curBattlerIndex = 0;
     public bool canChangebattler = true;
     public bool hasConfirmedTurn = false;
+    public GameObject cancelButton;
+    public GameObject confirmButton;
 
     public PlayerBattler curBattler;
 
@@ -57,28 +59,64 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         }
     }
 
+    public void cancelTurn()
+    {
+        hasCancelled = true;
+    }
+
 
     public override IEnumerator executeTurn()
     {
-        panelUI.gameObject.SetActive(true);
         hasConfirmedTurn = false;
-        shiftBattler(0);
-
-        while (curCommand.command == null)
-            yield return null;
-        panelUI.gameObject.SetActive(false);
-        rangePreviewList.Clear();
-        curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles,rangePreviewList,curBattler.curTile.x , curBattler.curTile.y);
-
-        foreach (var tile in rangePreviewList)
-        {
-            if(curBattler.chosenCommand.command.isValidTargetTile(curBattler,tile))
-                tile.setTileState(TileState.range);
-        }
-        yield return StartCoroutine(targeter.getTargets(curBattler.chosenCommand));
-
         while (!hasConfirmedTurn)
-            yield return null;
+        {
+            hasCancelled = false;
+            panelUI.gameObject.SetActive(true);
+            cancelButton.gameObject.SetActive(false);
+            confirmButton.gameObject.SetActive(false);
+            hasConfirmedTurn = false;
+            shiftBattler(0);
+
+            while (curCommand.command == null)
+                yield return null;
+
+            panelUI.gameObject.SetActive(false);
+            rangePreviewList.Clear();
+            curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles, rangePreviewList,
+                curBattler.curTile.x, curBattler.curTile.y);
+
+            foreach (var tile in rangePreviewList)
+            {
+                if (curBattler.chosenCommand.command.isValidTargetTile(curBattler, tile))
+                    tile.setTileState(TileState.range);
+            }
+
+            yield return StartCoroutine(targeter.getTargets(curBattler.chosenCommand));
+
+            cancelButton.gameObject.SetActive(true);
+            confirmButton.gameObject.SetActive(true);
+
+            while (!hasConfirmedTurn)
+            {
+                if (hasCancelled)
+                {
+                    Debug.Log("cancel");
+                    foreach (var tile in rangePreviewList)
+                    {
+                        tile.setTileState(TileState.normal);
+                    }
+                    foreach (var tile in targeter.targetPreviewList)
+                    {
+                        tile.setTileState(TileState.normal);
+                    }
+
+                    curCommand.command = null;
+                    break;
+                }
+
+                yield return null;
+            }
+        }
 
         var command = curCommand.command;
         foreach (var tile in targeter.targetPreviewList)

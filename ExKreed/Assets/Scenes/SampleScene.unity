@@ -567,6 +567,7 @@ MonoBehaviour:
   commands:
   - {fileID: 11400000, guid: 757a44b65499633418e898e7edb3511b, type: 2}
   - {fileID: 11400000, guid: 880f84d34d316a147a780d16f0553307, type: 2}
+  - {fileID: 11400000, guid: c2cdec536f54a4b42acf17e41c670be6, type: 2}
   chosenCommand:
     command: {fileID: 0}
     user: {fileID: 0}
@@ -677,6 +678,7 @@ MonoBehaviour:
   commands:
   - {fileID: 11400000, guid: 757a44b65499633418e898e7edb3511b, type: 2}
   - {fileID: 11400000, guid: 880f84d34d316a147a780d16f0553307, type: 2}
+  - {fileID: 11400000, guid: c2cdec536f54a4b42acf17e41c670be6, type: 2}
   chosenCommand:
     command: {fileID: 0}
     user: {fileID: 0}
@@ -787,6 +789,7 @@ MonoBehaviour:
   commands:
   - {fileID: 11400000, guid: 880f84d34d316a147a780d16f0553307, type: 2}
   moveCommand: {fileID: 11400000, guid: 757a44b65499633418e898e7edb3511b, type: 2}
+  waitCommand: {fileID: 11400000, guid: c2cdec536f54a4b42acf17e41c670be6, type: 2}
   chosenCommand:
     command: {fileID: 0}
     user: {fileID: 0}
@@ -1318,6 +1321,7 @@ MonoBehaviour:
   commands:
   - {fileID: 11400000, guid: 757a44b65499633418e898e7edb3511b, type: 2}
   - {fileID: 11400000, guid: 880f84d34d316a147a780d16f0553307, type: 2}
+  - {fileID: 11400000, guid: c2cdec536f54a4b42acf17e41c670be6, type: 2}
   chosenCommand:
     command: {fileID: 0}
     user: {fileID: 0}
@@ -1486,75 +1490,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!1001 &4124910606228406158
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5755668315135258330, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_Name
-      value: WindFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755668315135258333, guid: 7d41dc57cafb7c240b9980d6e4f0b492,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7d41dc57cafb7c240b9980d6e4f0b492, type: 3}
 --- !u!224 &6312145006561180788
 RectTransform:
   m_ObjectHideFlags: 0

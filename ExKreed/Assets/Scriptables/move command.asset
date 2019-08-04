@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eaa515eeb4363e4d9dd9d7046511cca, type: 3}
   m_Name: move command
   m_EditorClassIdentifier: 
-  title: nameless technique
+  title: Move
   delay: 1
   delayPerStrain: 0.5
+  strainBoost: 10
+  fxPrefab: {fileID: 0}
+  fxWaitDuration: 0
   rangePattern: {fileID: 11400000, guid: 80c6d08f4a38f66459883e7ce155d071, type: 2}
-  rangeLen: 1
   damagePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}
-  damageRangeLen: 1
