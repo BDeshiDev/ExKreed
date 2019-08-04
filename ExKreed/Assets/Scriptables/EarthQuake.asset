@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24d9bcce5fd9489428eaae8cf5693d31, type: 3}
-  m_Name: test
+  m_Name: EarthQuake
   m_EditorClassIdentifier: 
-  title: '"Normal attack"'
-  delay: 15
+  title: EarthQuake
+  delay: 30
   delayPerStrain: 0.5
-  strainBoost: 10
-  fxPrefab: {fileID: 6478883536270013437, guid: 9a3522b26acee4140909a4e9e0610932,
+  strainBoost: 30
+  fxPrefab: {fileID: 6834857398337696048, guid: fe45a186522c90b4ba5e1c7e7c64396c,
     type: 3}
   fxWaitDuration: 0.8
   shouldTargetSelf: 0
-  rangePattern: {fileID: 11400000, guid: 80c6d08f4a38f66459883e7ce155d071, type: 2}
-  damagePattern: {fileID: 11400000, guid: a31bc1000d8323444aeba096c026f12d, type: 2}
-  damageBonus: 10
+  rangePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}
+  damagePattern: {fileID: 11400000, guid: b4b8bd509afc1c94eab7a3284d0d6804, type: 2}
+  damageBonus: 15

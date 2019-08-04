@@ -13,6 +13,11 @@ public class BattleSystem : MonoBehaviour
 
     public Transform turnPanelHolder;
     public TurnPanel turnPanelPrefab;
+    public int strainRecovThreshold = 2;
+    public int strainAccumulator = 0;
+
+    public GameObject nextSceneLoader;
+    public GameObject failScreenLoader;
 
     private void Start()
     {
@@ -24,9 +29,8 @@ public class BattleSystem : MonoBehaviour
         foreach (var battler in battlers)
         {
             battler.init();
-            TurnPanel panel = Instantiate(turnPanelPrefab, turnPanelHolder);
-            panel.updateVal(battler);
         }
+        battlers.Sort();
         StartCoroutine(battleLoop());
     }
 
@@ -34,16 +38,16 @@ public class BattleSystem : MonoBehaviour
     {
         while (battlers.Count > 0)
         {
+            battlers.Sort();
             int delayRecoveryAmount = battlers[0].delay;
-            Debug.Log("recovery amount " + delayRecoveryAmount);
+            Debug.Log("extracted delay " + delayRecoveryAmount);
             foreach (var battler in battlers)
             {
                 battler.delay -= delayRecoveryAmount;
-                battler.recoverStrain(delayRecoveryAmount);
+                strainAccumulator += delayRecoveryAmount;
+                battler.recoverStrain(strainAccumulator / strainRecovThreshold);
+                strainAccumulator = strainAccumulator % strainRecovThreshold;
             }
-            yield return StartCoroutine(battlers[0].executeTurn());
-
-            battlers.Sort();
 
             for (int i = 0; i < turnPanelHolder.childCount; i++)
             {
@@ -56,27 +60,47 @@ public class BattleSystem : MonoBehaviour
                 panel.updateVal(battler);
             }
 
+            yield return StartCoroutine(battlers[0].executeTurn());
 
-            if (playerParty.isDead())
+            bool allPLayerDead = true;
+            foreach (var playerPartyBattler in playerParty.battlers)
             {
-                Debug.Log("Player loses");
-                break;
+                if (!playerPartyBattler.isDead())
+                {
+                    allPLayerDead = false;
+                }
+                else
+                {
+                    playerPartyBattler.setState(PlayerCharState.dead);
+                }
             }
-            else
+
+            if (allPLayerDead)
+            {
+                Debug.Log("Player Loses");
+                failScreenLoader.SetActive(true);
+                break;
+            }else
             {
                 bool allEnemiesDead = true;
-                foreach (var enemyBattler in enemies)
+                for (int i = enemies.Count - 1; i >= 0; i--)
                 {
+                    var enemyBattler = enemies[i];
                     if (!enemyBattler.isDead())
                     {
                         allEnemiesDead = false;
-                        break;
+                    }
+                    else if (battlers.Contains(enemyBattler))
+                    {
+                        enemyBattler.showDead();
+                        battlers.Remove(enemyBattler);
                     }
                 }
 
                 if (allEnemiesDead)
                 {
                     Debug.Log("Player wins");
+                    nextSceneLoader.SetActive(true);
                     break;
                 }
             }

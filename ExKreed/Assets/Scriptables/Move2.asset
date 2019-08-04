@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Move2
   m_EditorClassIdentifier: 
   title: Move
-  delay: 1
-  delayPerStrain: 0.5
+  delay: 5
+  delayPerStrain: 0.1
   strainBoost: 10
   fxPrefab: {fileID: 0}
   fxWaitDuration: 0
+  shouldTargetSelf: 0
   rangePattern: {fileID: 11400000, guid: 80c6d08f4a38f66459883e7ce155d071, type: 2}
   damagePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}

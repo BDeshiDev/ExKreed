@@ -17,11 +17,20 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
     public bool hasConfirmedTurn = false;
     public GameObject cancelButton;
     public GameObject confirmButton;
+    public SkillPreview skillPreviewer;
 
     public PlayerBattler curBattler;
 
     public override CommandHolder curCommand => curBattler == null? null: curBattler.chosenCommand;
     public List<Tile> rangePreviewList;
+
+    public override void recoverStrain(int amount)
+    {
+        foreach (var battler in battlers)
+        {
+            battler.recoverStrain(amount);
+        }
+    }
 
     public void shiftBattler(int offset = 1)
     {
@@ -29,14 +38,29 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
         {
             if (curBattler != null)
             {//clear existing panel
-                for (int i = 0; i < panelUI.transform.childCount; i++)
+                for (int i = 0; i < panelUI.buttonParent.childCount; i++)
                 {
-                    Destroy(panelUI.transform.GetChild(i).gameObject);
+                    Destroy(panelUI.buttonParent.transform.GetChild(i).gameObject);
                 }
             }
 
             curBattlerIndex = (curBattlerIndex + offset + battlers.Count) % battlers.Count;
             curBattler = battlers[curBattlerIndex];
+
+            if (!curBattler.stats.canTakeTurn)
+            {
+                for (int i = 1; i <= battlers.Count; i++)
+                {
+                    int index = (curBattlerIndex + (offset >= 0 ? i : -i) + battlers.Count) % battlers.Count;
+                    if (battlers[index].canTakeTurn)
+                    {
+                        curBattlerIndex = index;
+                        curBattler = battlers[curBattlerIndex];
+                        break;
+                    }
+                }
+            }
+
             panelUI.createButtonList(curBattler,curBattler.commands);
         }
     }
@@ -84,6 +108,12 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
             canChangebattler = false;
 
             panelUI.gameObject.SetActive(false);
+
+            skillPreviewer.gameObject.SetActive(true);
+            skillPreviewer.skillNameText.text = curBattler.chosenCommand.command.title;
+            delay = curBattler.chosenCommand.command.calcDelay(curBattler);
+            skillPreviewer.expectedDelayText.text = "Time Till Next Turn: " + delay;
+
             rangePreviewList.Clear();
             curBattler.chosenCommand.command.rangePattern.selectTargets(targeter.grid.tiles, rangePreviewList,curBattler,
                 curBattler.curTile.x, curBattler.curTile.y);
@@ -98,6 +128,7 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
 
             cancelButton.gameObject.SetActive(true);
             confirmButton.gameObject.SetActive(true);
+
 
             while (!hasConfirmedTurn)
             {
@@ -118,6 +149,7 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
                 }
                 yield return null;
             }
+            skillPreviewer.gameObject.SetActive(false);
         }
 
         var command = curCommand.command;
@@ -137,10 +169,18 @@ public class PlayerGroup : BattleGroup<PlayerBattler>
             tile.setTileState(TileState.normal);
         }
 
-        delay = command.calcDelay(curBattler);
     }
 
     public override string BattleTag => "Player";
+
+    public void handleDead()
+    {
+        foreach (var playerBattler in battlers)
+        {
+            if(playerBattler.isDead())
+                playerBattler.setState(PlayerCharState.dead);
+        }
+    }
 
     public override void init()
     {

@@ -15,7 +15,7 @@ public class HealAttack : BattleCommand
 
         foreach (var tile in targets)
         {
-            if (tile.occupant != null)
+            if (tile.occupant != null && !tile.occupant.isDead())
                 tile.occupant.stats.takeFlatDamage(-healAmount);
         }
         yield return null;

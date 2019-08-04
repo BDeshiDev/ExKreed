@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Stab
   m_EditorClassIdentifier: 
   title: Piercing Strike
-  delay: 1
-  delayPerStrain: 0.5
+  delay: 8
+  delayPerStrain: 0.1
   strainBoost: 10
   fxPrefab: {fileID: 6478883536270013437, guid: 9a3522b26acee4140909a4e9e0610932,
     type: 3}
   fxWaitDuration: 0.8
+  shouldTargetSelf: 0
   rangePattern: {fileID: 11400000, guid: cde6e2ac5660b2b448d66a0a49228da2, type: 2}
   damagePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}
   damageBonus: 10

@@ -8,9 +8,11 @@ public class Stats
     public int attack = 15;
     public int defence = 10;
     public int maxHp=30;
-    public int strain = 0;
+    public int strain { get; private set; }
     public static int maxStrain = 100;
     public bool isOverStrained = false;
+    public bool canTakeTurn => curHp > 0;
+    //public bool canTakeTurn => curHp > 0 && !isOverStrained;
     public int curHp { get; private set; }
 
     public event Action<Stats> onHealthChangeEvent;
@@ -28,11 +30,13 @@ public class Stats
         onStrainChangeEvent?.Invoke(strain);
         if (strain >= maxStrain)
             isOverStrained = true;
+        if (strain <= 0 && isOverStrained)
+            isOverStrained = false;
     }
 
     public int calcDamage(int amount)
     {
-        return (amount > defence ? (amount - defence) : 0);
+        return Mathf.CeilToInt((amount > defence ? (amount - defence) : 0) * ( 1 + ((float)strain) / maxStrain));
     }
 
     public void takeDamage(int amount)

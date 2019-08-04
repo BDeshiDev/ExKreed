@@ -16,7 +16,7 @@ public class StrainRecoveryAttack : BattleCommand
 
         foreach (var tile in targets)
         {
-            if (tile.occupant != null)
+            if (tile.occupant != null && !tile.occupant.isDead())
                 tile.occupant.recoverStrain(healAmount);
         }
         yield return null;

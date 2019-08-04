@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Wait
   delay: 1
-  delayPerStrain: 0.5
-  strainBoost: 10
+  delayPerStrain: 0
+  strainBoost: 1
   fxPrefab: {fileID: 0}
   fxWaitDuration: 0
+  shouldTargetSelf: 0
   rangePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}
   damagePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}

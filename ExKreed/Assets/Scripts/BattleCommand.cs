@@ -20,7 +20,7 @@ public abstract class BattleCommand : ScriptableObject
 
     public int calcDelay(Battler user)
     {
-        return Mathf.FloorToInt(delay + (user.stats.strain) * delayPerStrain);
+        return Mathf.CeilToInt(delay + (user.stats.strain) * delayPerStrain);
     }
 
     public IEnumerator playFX(List<Tile> targets)

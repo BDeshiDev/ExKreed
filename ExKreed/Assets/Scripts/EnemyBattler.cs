@@ -10,6 +10,12 @@ public class EnemyBattler : Battler
     public CommandHolder chosenCommand;
     public Tile selectedTile;
     public override CommandHolder curCommand => chosenCommand;
+    public SpriteRenderer spriter;
+
+    public void showDead()
+    {
+        spriter.color = deadColor;
+    }
 
     public override IEnumerator executeTurn()
     {
@@ -32,7 +38,7 @@ public class EnemyBattler : Battler
                 possibleTargetTiles[i].setTileState(TileState.range);
         }
 
-        Debug.Log("selected " + selectedTile.gameObject);
+        //Debug.Log("selected " + selectedTile.gameObject);
         yield return new WaitForSeconds(.5f);
         foreach (var possibleTargetTile in possibleTargetTiles)
         {
@@ -46,7 +52,7 @@ public class EnemyBattler : Battler
         foreach (var possibleTargetTile in possibleTargetTiles)
         {
             possibleTargetTile.setTileState(TileState.target);
-            Debug.Log("target" + possibleTargetTile.gameObject);
+            //Debug.Log("target" + possibleTargetTile.gameObject);
         }
 
         yield return StartCoroutine(chosenCommand.command.playFX(possibleTargetTiles));
@@ -71,15 +77,18 @@ public class EnemyBattler : Battler
         List<Tile> damagableTiles = new List<Tile>();
         foreach (var battleCommand in commands)
         {
+            tilesInRange.Clear();
             battleCommand.rangePattern.selectTargets(targeter.grid.tiles,tilesInRange,this,curTile.x, curTile.y);
             foreach (var tile in tilesInRange)
             {
+                //Debug.Log(battleCommand.title + "range " + tile.gameObject);
                 damagableTiles.Clear();
                 battleCommand.damagePattern.selectTargets(targeter.grid.tiles,damagableTiles,this,tile.x,tile.y);
                 int damageScore = 0;
                 foreach (var damagableTile in damagableTiles)
                 {
-                    if (damagableTile.occupant != null)
+                    //Debug.Log(battleCommand.title + "damage " + damagableTile.gameObject);
+                    if (damagableTile.occupant != null && !damagableTile.occupant.isDead())
                     {
                         if (damagableTile.occupant.BattleTag != this.BattleTag)
                         {
@@ -88,7 +97,7 @@ public class EnemyBattler : Battler
                             {
                                 maxDamageScore = damageScore;
                                 result = battleCommand;
-                                selectedTile = damagableTile;
+                                selectedTile = tile;
                             }
                         }
                         else
@@ -100,6 +109,8 @@ public class EnemyBattler : Battler
                 }
             }
         }
+        if(selectedTile != null)
+            Debug.Log(selectedTile.gameObject);
         return result;
     }
 

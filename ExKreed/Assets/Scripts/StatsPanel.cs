@@ -9,12 +9,19 @@ public class StatsPanel : MonoBehaviour
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI strainText;
     public HealthUI healthBar;
-    private Battler battler;
+    public Battler battler;
     private bool hasInitStrain = false;
+
+    private void Awake()
+    {
+        if(battler != null)
+            init(battler);
+    }
 
     public void init(Battler battler)
     {
-        titleText.text = battler.title;
+        if (titleText != null)
+            titleText.text = battler.title;
         healthBar.battler = battler;
         this.battler = battler;
         updateStrain(battler.stats.strain);

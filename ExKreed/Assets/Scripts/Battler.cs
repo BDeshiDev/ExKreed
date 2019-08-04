@@ -13,6 +13,10 @@ public abstract class Battler : MonoBehaviour,IComparable<Battler>
     public abstract IEnumerator executeTurn();
     public TargettingSystem targeter;
     public Tile curTile;
+
+    public Color normalColor = Color.white;
+    public Color deadColor = Color.red;
+
     public abstract string BattleTag { get; }
 
     public bool canTakeTurn => stats.curHp > 0 && !stats.isOverStrained;
@@ -31,9 +35,8 @@ public abstract class Battler : MonoBehaviour,IComparable<Battler>
         return stats.calcDamage(amount);
     }
 
-    public void recoverStrain(int amount)
+    public virtual void recoverStrain(int amount)
     {
-        Debug.Log(title);
         stats.increaseStrain(-amount);
     }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: dance of rejuvenation
   delay: 25
-  delayPerStrain: 0.5
+  delayPerStrain: 0.4
   strainBoost: 25
   fxPrefab: {fileID: 8352997615380990175, guid: d7dc2fc9cc54fdc42b9c6cad174de1e0,
     type: 3}
@@ -22,4 +22,4 @@ MonoBehaviour:
   shouldTargetSelf: 0
   rangePattern: {fileID: 11400000, guid: 2d36e720cf120134b8a118852180793f, type: 2}
   damagePattern: {fileID: 11400000, guid: 80c6d08f4a38f66459883e7ce155d071, type: 2}
-  healAmount: 35
+  healAmount: 40

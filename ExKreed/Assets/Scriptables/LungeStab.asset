@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: LungeStab
   m_EditorClassIdentifier: 
   title: Lunge Stab
-  delay: 1
+  delay: 15
   delayPerStrain: 0.5
-  strainBoost: 10
+  strainBoost: 25
   fxPrefab: {fileID: 6478883536270013437, guid: 9a3522b26acee4140909a4e9e0610932,
     type: 3}
   fxWaitDuration: 0.8
+  shouldTargetSelf: 0
   rangePattern: {fileID: 11400000, guid: b533b0a213cdde04d8f64b82862830f3, type: 2}
   damagePattern: {fileID: 11400000, guid: 701f0cc6257c4614e90a60d50676d6b6, type: 2}
   damageBonus: 25

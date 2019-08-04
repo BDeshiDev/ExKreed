@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Invigorating Dance
   delay: 25
-  delayPerStrain: 0.5
+  delayPerStrain: 0.1
   strainBoost: 50
   fxPrefab: {fileID: 8352997615380990175, guid: d7dc2fc9cc54fdc42b9c6cad174de1e0,
     type: 3}

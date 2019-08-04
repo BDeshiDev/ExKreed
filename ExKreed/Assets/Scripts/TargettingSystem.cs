@@ -12,7 +12,6 @@ public class TargettingSystem : MonoBehaviour
 
     public IEnumerator getTargets(CommandHolder command)
     {
-        Debug.Log("await targets");
         canSelectTiles = true;
         while (selectedTile == null)
         {
@@ -29,7 +28,6 @@ public class TargettingSystem : MonoBehaviour
             tile.setTileState(TileState.target);
         }
         
-        Debug.Log("received targets");
         selectedTile = null;
         canSelectTiles = false;
     }
